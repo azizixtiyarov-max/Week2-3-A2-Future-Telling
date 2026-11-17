@@ -16,3 +16,5 @@ Checked in the browser at desktop width (1440 px) and phone width (390 px).
 - JavaScript syntax, internal links, anchors, SVG files, and reflection length checked.
 
 Verification does not replace testing with assistive technology users. Storage-failure messages are implemented but storage-denied behavior was not simulated in this revision.
+
+Garden-view update: verified default landscape, clickable plants, Garden/List switching, Memory filtering, new planting, growth after an added chapter, removal, and the My seeds empty state. Checked the garden at 390 px and desktop sizes; no horizontal overflow or console errors observed. Current reflection: 327 words.

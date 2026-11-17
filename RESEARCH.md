@@ -41,3 +41,7 @@ Brief → future scenario → online precedents → botanical visual language �
 - Instructor: added a literal definition of a seed, a numbered introduction, clear action labels, writing starters, and a My seeds filter.
 
 Growth comes from writing, not repeated button clicks. There are no time penalties or streaks. A visitor can remove their own added chapters; the plant then reflects the remaining story. Fictional example flowers begin with three authored chapters. A visitor's own new seed begins with one. These changes respond to the supplied critiques; they have not yet been evaluated in a second round of participant testing.
+
+## Garden view revision
+
+The default collection is now a spatial garden with a path, greenhouse, bench, planting beds, and clickable flowers. A Garden/List control lets visitors switch to the existing card layout. Both views use the same filters and saved stories. Name signs provide visible labels, and each plant is a keyboard-accessible button. Introductory text and action labels were shortened to explain the task without repeated slogans. The reflection was rewritten to match these changes.

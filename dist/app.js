@@ -294,6 +294,69 @@ if (seedGrid) {
     return node;
   }
 
+  const landscape = document.querySelector("#garden-landscape");
+  const plantBed = document.querySelector("#garden-plants");
+  let gardenView = "garden";
+  const activeCollection = () =>
+    gardenView === "garden" ? plantBed : seedGrid;
+  document.querySelectorAll("[data-view]").forEach((button) =>
+    button.addEventListener("click", () => {
+      gardenView = button.dataset.view;
+      landscape.hidden = gardenView !== "garden";
+      seedGrid.hidden = gardenView !== "list";
+      document
+        .querySelectorAll("[data-view]")
+        .forEach((control) =>
+          control.setAttribute(
+            "aria-pressed",
+            String(control.dataset.view === gardenView),
+          ),
+        );
+    }),
+  );
+  function renderLandscape(visible) {
+    plantBed.replaceChildren();
+    if (!visible.length) {
+      const message = element("div", "garden-empty");
+      message.append(
+        element(
+          "h3",
+          "",
+          currentFilter === "mine"
+            ? "You haven’t planted anything yet."
+            : "No plants here yet.",
+        ),
+        element(
+          "p",
+          "",
+          currentFilter === "pocket"
+            ? "Save a plant to find it here later."
+            : "Use Plant something above to add your first one.",
+        ),
+      );
+      plantBed.append(message);
+    }
+    visible.forEach((seed) => {
+      const plant = element("button", "garden-plant");
+      plant.type = "button";
+      plant.setAttribute("aria-label", `Open seed: ${seed.title}`);
+      const drawing = element("span", "garden-flower");
+      drawing.setAttribute("aria-hidden", "true");
+      GardenGrowth.mount(drawing, seed.type, stageFor(seed));
+      const label = element("span", "plant-sign");
+      label.append(
+        element("span", "plant-title", seed.title),
+        element(
+          "span",
+          "plant-owner",
+          `${seed.person} · ${GardenGrowth.labels[stageFor(seed)]}`,
+        ),
+      );
+      plant.append(drawing, label);
+      plant.addEventListener("click", () => openSeed(seed, plant));
+      plantBed.append(plant);
+    });
+  }
   function renderSeeds() {
     filterButtons.forEach((button) =>
       button.setAttribute(
@@ -312,6 +375,7 @@ if (seedGrid) {
     );
     document.querySelector("#seed-count").textContent =
       `${visible.length} ${visible.length === 1 ? "seed" : "seeds"} ${currentFilter === "pocket" ? "in your pocket" : "to discover"}`;
+    renderLandscape(visible);
     seedGrid.replaceChildren();
     if (!visible.length) {
       const empty = element("div", "empty-state");
@@ -320,14 +384,14 @@ if (seedGrid) {
           "h2",
           "",
           currentFilter === "mine"
-            ? "Your first story starts here."
-            : "A little room for possibility.",
+            ? "You haven’t planted anything yet."
+            : "Nothing saved here yet.",
         ),
         element(
           "p",
           "",
           currentFilter === "mine"
-            ? "Choose Plant my first seed above. Write a thought, then return to add its next chapter."
+            ? "Choose Plant something above. Write a thought, then return to add its next chapter."
             : "Open a seed and keep it in your pocket. It will be waiting here.",
         ),
       );
@@ -389,7 +453,7 @@ if (seedGrid) {
     document.querySelector("#detail-body").textContent = seed.body;
 
     document.querySelector("#detail-prompt-title").textContent =
-      seed.promptTitle || "A beginning worth keeping";
+      seed.promptTitle || "Your notes";
     document.querySelector("#detail-prompt-body").textContent =
       seed.prompt ||
       "This seed lives in your own browser. Keep it in your pocket, or remove it whenever you like.";
@@ -529,7 +593,7 @@ if (seedGrid) {
       saved
         ? kept
           ? "Seed removed from your pocket."
-          : "A little possibility, saved in your pocket."
+          : "Saved to My pocket."
         : "Kept for this visit. Browser storage is unavailable.",
     );
   });
@@ -537,7 +601,9 @@ if (seedGrid) {
   seedDialog.addEventListener("close", () => {
     const oldTitle = selectedSeed?.title;
     renderSeeds();
-    const matchingButton = [...seedGrid.querySelectorAll("button")].find(
+    const matchingButton = [
+      ...activeCollection().querySelectorAll("button"),
+    ].find(
       (button) =>
         button.getAttribute("aria-label") === `Open seed: ${oldTitle}`,
     );
@@ -635,14 +701,14 @@ if (seedGrid) {
     renderSeeds();
     form.reset();
     plantDialog.close();
-    seedGrid.querySelector("button").focus({ preventScroll: true });
-    seedGrid.scrollIntoView({
+    activeCollection().querySelector("button").focus({ preventScroll: true });
+    activeCollection().scrollIntoView({
       behavior: motionOff ? "instant" : "smooth",
       block: "start",
     });
     announce(
       saved
-        ? "Your seed is planted in My seeds. Open it to add the next chapter and watch it grow."
+        ? "Planted. You can find it under My seeds."
         : "Your seed is here for this visit. Browser storage is unavailable.",
     );
   });

@@ -43,3 +43,7 @@ Start with the guided story to see how a seed becomes a bud, then a flower. Plan
 The revised reflection incorporates the supplied peer and instructor feedback and remains within 250–400 words. `RESEARCH.md` maps feedback to design changes.
 
 To regenerate HTML and artwork, run `python3 scripts/build-pages.py` followed by `node scripts/build-flowers.cjs`. The delivered `dist/` folder is already ready to use.
+
+## Garden and list views
+
+The garden now opens as a landscape. Click a flower’s image or sign to read the story. Use the **Garden / List** buttons to switch views. The filters work in both views, and new contributions appear as plants in the garden. No existing saved writing is reset by this update.

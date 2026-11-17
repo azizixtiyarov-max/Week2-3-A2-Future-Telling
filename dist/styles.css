@@ -1780,3 +1780,249 @@ html[data-motion="off"] *:after {
   width: 240px;
   height: 260px;
 }
+
+/* A shared patch of ground, with a list view for reading. */
+.view-switch {
+  display: flex;
+  gap: 3px;
+  justify-content: flex-end;
+  margin: 0 0 14px;
+}
+.view-switch button {
+  padding: 10px 20px;
+  border: 1px solid var(--line);
+  background: none;
+  border-radius: 5px;
+  color: var(--muted);
+  font-size: 12px;
+  min-height: 42px;
+}
+.view-switch button[aria-pressed="true"] {
+  background: #ded4bb;
+  color: #2f392c;
+  border-color: #ded4bb;
+}
+.garden-landscape {
+  position: relative;
+  background: #294032 url("assets/garden-landscape.svg") center/100% 100%;
+  border: 1px solid #7d8d6a70;
+  border-radius: 70px 14px 55px 14px;
+  overflow: hidden;
+  margin-bottom: 55px;
+  min-height: 650px;
+}
+.garden-weather {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #d7d8be;
+  font:
+    10px "Courier New",
+    monospace;
+  letter-spacing: 0.08em;
+  padding: 28px 34px;
+}
+.garden-plants {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 8px 30px;
+  padding: 45px 65px 20px;
+  position: relative;
+  z-index: 1;
+  min-height: 500px;
+}
+.garden-plant {
+  flex: 0 0 calc((100% - 60px) / 3);
+  max-width: 300px;
+  border: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 10px 10px;
+  position: relative;
+  min-width: 0;
+  border-radius: 40px;
+  isolation: isolate;
+}
+.garden-plant:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: 77px;
+  width: 88%;
+  height: 45px;
+  background: #243128;
+  border: 1px solid #84936555;
+  border-radius: 50%;
+  box-shadow: 0 10px 25px #0a1d1938;
+}
+.garden-flower {
+  display: block;
+  width: 200px;
+  height: 200px;
+  transform-origin: 50% 100%;
+  transition: transform 0.4s;
+  filter: drop-shadow(3px 10px 5px #14251950);
+}
+.garden-flower svg {
+  width: 100%;
+  height: 100%;
+}
+.garden-plant:nth-child(3n + 1) .garden-flower {
+  transform: rotate(-5deg);
+}
+.garden-plant:nth-child(3n + 2) .garden-flower {
+  transform: rotate(4deg) scale(0.94);
+}
+.garden-plant:hover .garden-flower,
+.garden-plant:focus-visible .garden-flower {
+  transform: translateY(-5px) rotate(0) scale(1.05);
+}
+.plant-sign {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background: #dfd5bc;
+  color: #293629;
+  max-width: 225px;
+  width: 100%;
+  min-height: 68px;
+  padding: 12px 15px;
+  border-radius: 3px;
+  box-shadow: 3px 4px 0 #15271e44;
+  transform: rotate(-1deg);
+}
+.garden-plant:nth-child(even) .plant-sign {
+  transform: rotate(1deg);
+}
+.plant-title {
+  font:
+    17px/1.2 Georgia,
+    serif;
+  overflow-wrap: anywhere;
+}
+.plant-owner {
+  font:
+    9px "Courier New",
+    monospace;
+  color: #536048;
+}
+.garden-path {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font:
+    9px "Courier New",
+    monospace;
+  letter-spacing: 0.16em;
+  color: #e0d7b5;
+}
+.garden-empty {
+  align-self: center;
+  color: #e5e1ce;
+  text-align: center;
+  background: #263b2cdd;
+  border: 1px solid #bbc59c55;
+  padding: 35px;
+  border-radius: 10px;
+  margin: auto;
+}
+.garden-empty h3 {
+  font:
+    26px Georgia,
+    serif;
+}
+.garden-empty p {
+  font-size: 13px;
+}
+.garden-intro {
+  padding-top: 42px;
+  padding-bottom: 25px;
+}
+.garden-intro h1 {
+  font-size: 60px;
+}
+.garden-intro .growth-key {
+  display: none;
+}
+.garden-intro > div:first-child {
+  width: 100%;
+}
+.garden-intro .garden-explanation {
+  max-width: 630px;
+}
+.story-demo {
+  margin-top: 35px;
+}
+.garden-weather span:last-child {
+  font-family: Georgia, serif;
+  font-size: 14px;
+  letter-spacing: 0;
+}
+.plant-panel {
+  border-radius: 7px;
+  background: #d7dfb3;
+}
+.principle-chips {
+  display: none;
+}
+.hero-art .orbit-label {
+  display: none;
+}
+.site-footer .micro:empty {
+  display: none;
+}
+@media (max-width: 760px) {
+  .garden-intro h1 {
+    font-size: 47px;
+  }
+  .garden-landscape {
+    border-radius: 35px 8px 30px 8px;
+    min-height: 570px;
+  }
+  .garden-weather {
+    padding: 22px 18px;
+    gap: 8px;
+    flex-direction: column;
+  }
+  .garden-plants {
+    padding: 20px 10px;
+    gap: 20px 6px;
+    min-height: 400px;
+  }
+  .garden-plant {
+    flex-basis: calc((100% - 6px) / 2);
+    padding: 0 3px 6px;
+  }
+  .garden-flower {
+    width: 140px;
+    height: 160px;
+    max-width: 100%;
+  }
+  .plant-sign {
+    padding: 10px 8px;
+    min-height: 76px;
+  }
+  .plant-title {
+    font-size: 15px;
+  }
+  .plant-owner {
+    font-size: 8px;
+  }
+  .garden-path {
+    height: 65px;
+  }
+  .garden-plant:before {
+    bottom: 80px;
+  }
+  .garden-empty {
+    padding: 25px 15px;
+  }
+  .view-switch {
+    justify-content: flex-start;
+  }
+}
