@@ -129,7 +129,7 @@ if (seedGrid) {
       person: "Ren",
       place: "Repair greenhouse",
       art: "bloom",
-      body: "Ren’s corner of the 2086 commons holds repair memories: how fabric feels before a seam gives way, or how a loose chair sounds. You can replay a technique slowly, read its steps, or bring an object to the neighborhood workshop.",
+      body: "I almost left the old chair outside for collection. Then I noticed the pencil marks under the seat: the dates my father had repaired it before. I brought it back inside. I did not know how to mend the loose leg, but I knew I wanted to learn.",
       promptTitle: "A small beginning, today",
       prompt:
         "Look for one worn object you still love. Write down what it needs. You do not have to know how to fix it yet.",
@@ -143,7 +143,7 @@ if (seedGrid) {
       person: "Amara",
       place: "Memory conservatory",
       art: "pink",
-      body: "Amara remembers a market that no longer exists. In the future garden, she chooses which fragments to share and which to keep private. Captions and sensory descriptions let someone enter the memory without needing to hear it. Her story stays hers.",
+      body: "I miss the market beside our old apartment. Every Saturday, the air smelled of oranges and warm bread. The bread seller used to wrap one extra piece for the walk home. The market is gone now, but I can still remember the warmth through the paper.",
       promptTitle: "Keep a place alive",
       prompt:
         "Think of somewhere you miss. Describe one small detail you would want a future neighbor to know. Ask permission before including someone else’s story.",
@@ -157,7 +157,7 @@ if (seedGrid) {
       person: "Sol",
       place: "The quiet canopy",
       art: "orbit",
-      body: "Some days, connection means sitting together without speaking. Sol’s imagined canopy welcomes remote visitors and local neighbors into the same quiet room. A text check-in is optional. There are no cameras to turn on and no explanations to give.",
+      body: "I wanted company, but I did not have the energy to explain my day. I wondered whether being together could mean reading in the same room, listening to the same rain, and saying very little. I wrote that thought here in case someone else felt it too.",
       promptTitle: "An invitation you can borrow",
       prompt:
         "“Would you like to do our own things together for a little while?” A small, specific invitation can make it easier to say yes—or no.",
@@ -171,7 +171,7 @@ if (seedGrid) {
       person: "Ivo",
       place: "Water commons",
       art: "sun",
-      body: "Ivo’s future garden combines a community’s growing notes with local environmental observations. Neighbors can trace where an idea came from and adapt it together. The network shares the story behind a method, including the times it did not work.",
+      body: "After the first heavy rain, I noticed a small pool beside the greenhouse. While everyone hurried inside, I stayed to watch the water find its way between the stones. I drew its path on the back of a receipt. It was the first page of our garden notebook.",
       promptTitle: "Observe before you optimize",
       prompt:
         "Spend five minutes noticing where water collects after rain. Sketch what you see. Local observation is knowledge worth keeping.",
@@ -185,7 +185,7 @@ if (seedGrid) {
       person: "Mei",
       place: "Language grove",
       art: "blue",
-      body: "Mei tends a grove of expressions that resist easy translation. In this imagined network, speakers explain words in their own way, with context and permission. A phrase can hold several meanings without one version replacing all the others.",
+      body: "My aunt used an expression I had never heard outside our family. I could translate each word, but the feeling disappeared. I wanted to remember more than its dictionary meaning: her voice, the kitchen light, and the moment she chose to say it.",
       promptTitle: "Leave room for a meaning",
       prompt:
         "Choose a word or expression you love. Instead of translating it, describe a moment when you would use it.",
@@ -199,12 +199,38 @@ if (seedGrid) {
       person: "Noor",
       place: "The welcome relay",
       art: "lilac",
-      body: "Noor imagines a welcome relay for people arriving in a new community. Visitors choose what help to request and how to meet. Paid local stewards support introductions, and leaving a conversation is always an option. Belonging does not require telling your whole story.",
+      body: "On my first day here, I walked past the same doorway three times because I was afraid to ask where to go. A neighbor noticed and walked with me. I kept thinking about how small that kindness was for them, and how much it changed the day for me.",
       promptTitle: "Make the first step smaller",
       prompt:
         "Imagine you just arrived in your neighborhood. What is one thing a kind neighbor could explain? That knowledge could become your first seed.",
     },
   ];
+  const earlierChapters = {
+    "seed-01": [
+      "I kept the chair with the loose leg. My neighbor showed me how to look for the worn joint before reaching for a tool.",
+      "We repaired it together. Now it sits by the greenhouse door, ready for the next person who needs a rest.",
+    ],
+    "seed-02": [
+      "I told a neighbor about the old market. She remembered the bread stall too, from a different childhood.",
+      "We baked that bread together. Next Saturday, we are leaving an extra place at the table.",
+    ],
+    "seed-03": [
+      "I asked a friend to sit with me while we each worked. We agreed that neither of us needed to fill the silence.",
+      "That afternoon became our quiet Thursday. Sometimes we draw; sometimes we simply watch the light change.",
+    ],
+    "seed-04": [
+      "We drew the paths rain took through the garden. An older neighbor remembered where water collected before the new paths were built.",
+      "We left a shared notebook by the door. Each season brings a new observation, including the ideas that did not work.",
+    ],
+    "seed-05": [
+      "I asked my aunt when she used the expression. She answered with a story about waiting for someone to come home.",
+      "With her permission, I wrote down the story beside the word. Now it holds a moment, not just a definition.",
+    ],
+    "seed-06": [
+      "I remembered how confusing my first week had felt. I drew a small map of the places where people had helped me.",
+      "A new neighbor added a quiet route to the map. The next welcome will carry both of our experiences.",
+    ],
+  };
   const validTypes = ["knowledge", "memory", "care"];
   const storedSeeds = storage.get("seeds", []);
   let personalSeeds = Array.isArray(storedSeeds)
@@ -235,7 +261,25 @@ if (seedGrid) {
   const typeFromURL = new URLSearchParams(location.search).get("type");
   let currentFilter = validTypes.includes(typeFromURL) ? typeFromURL : "all";
   let selectedSeed;
-  let seedOpener;
+  const rawChapters = storage.get("chapters", {});
+  const chapters =
+    rawChapters &&
+    typeof rawChapters === "object" &&
+    !Array.isArray(rawChapters)
+      ? rawChapters
+      : {};
+  const notesFor = (seed) =>
+    Array.isArray(chapters[seed.id])
+      ? chapters[seed.id].filter(
+          (note) =>
+            note &&
+            typeof note.text === "string" &&
+            typeof note.date === "string",
+        )
+      : [];
+  const stageFor = (seed) =>
+    seed.local ? Math.min(2, notesFor(seed).length) : 2;
+  const chapterForm = document.querySelector("#chapter-form");
   const seedDialog = document.querySelector("#seed-dialog");
   const plantDialog = document.querySelector("#plant-dialog");
   const form = document.querySelector("#plant-form");
@@ -262,7 +306,9 @@ if (seedGrid) {
         currentFilter === "all" ||
         (currentFilter === "pocket"
           ? pocket.has(seed.id)
-          : seed.type === currentFilter),
+          : currentFilter === "mine"
+            ? seed.local
+            : seed.type === currentFilter),
     );
     document.querySelector("#seed-count").textContent =
       `${visible.length} ${visible.length === 1 ? "seed" : "seeds"} ${currentFilter === "pocket" ? "in your pocket" : "to discover"}`;
@@ -270,11 +316,19 @@ if (seedGrid) {
     if (!visible.length) {
       const empty = element("div", "empty-state");
       empty.append(
-        element("h2", "", "A little room for possibility."),
+        element(
+          "h2",
+          "",
+          currentFilter === "mine"
+            ? "Your first story starts here."
+            : "A little room for possibility.",
+        ),
         element(
           "p",
           "",
-          "Open a seed and keep it in your pocket. It will be waiting here.",
+          currentFilter === "mine"
+            ? "Choose Plant my first seed above. Write a thought, then return to add its next chapter."
+            : "Open a seed and keep it in your pocket. It will be waiting here.",
         ),
       );
       seedGrid.append(empty);
@@ -283,26 +337,21 @@ if (seedGrid) {
       const card = element("article", "seed-card");
       card.dataset.type = seed.type;
       const art = element("div", "seed-art");
-      const image = element("img");
-      image.src = `assets/${seed.art}.svg`;
-      image.alt = "";
-      image.width = 200;
-      image.height = 170;
-      image.loading = "lazy";
+      const image = element("div", "living-flower");
+      GardenGrowth.mount(image, seed.type, stageFor(seed));
+      image.setAttribute("aria-hidden", "true");
       art.append(
         image,
         element(
           "span",
           "seed-code",
-          seed.local
-            ? "YOUR SEED / LOCAL"
-            : `SPECIMEN / ${seed.id.slice(-2).padStart(3, "0")}`,
+          seed.local ? "YOUR STORY" : "FICTIONAL STORY",
         ),
-        element("span", "seed-orbit", pocket.has(seed.id) ? "✓" : "✧"),
+        element("span", "stage-badge", GardenGrowth.labels[stageFor(seed)]),
       );
       const content = element("div", "seed-content");
       const bottom = element("div", "seed-bottom");
-      const open = element("button", "open-seed", "Open seed ↗");
+      const open = element("button", "open-seed", "Read & grow ↗");
       open.type = "button";
       open.setAttribute("aria-label", `Open seed: ${seed.title}`);
       open.addEventListener("click", () => openSeed(seed, open));
@@ -315,7 +364,11 @@ if (seedGrid) {
         open,
       );
       content.append(
-        element("span", "seed-type", seed.type),
+        element(
+          "span",
+          "seed-type",
+          `${seed.type} · ${(seed.local ? 1 : 3) + notesFor(seed).length} ${!seed.local || notesFor(seed).length ? "chapters" : "chapter"}`,
+        ),
         element("h2", "", seed.title),
         element("p", "", seed.short || seed.body.slice(0, 110)),
         bottom,
@@ -327,23 +380,132 @@ if (seedGrid) {
 
   function openSeed(seed, opener) {
     selectedSeed = seed;
-    seedOpener = opener;
+
     document.querySelector("#detail-type").textContent =
       `${seed.type} / ${seed.local ? "Your seed" : "An imagined neighbor"}`;
     document.querySelector("#detail-title").textContent = seed.title;
     document.querySelector("#detail-person").textContent =
       `Planted by ${seed.person}`;
     document.querySelector("#detail-body").textContent = seed.body;
-    document.querySelector("#detail-art").src = `assets/${seed.art}.svg`;
+
     document.querySelector("#detail-prompt-title").textContent =
       seed.promptTitle || "A beginning worth keeping";
     document.querySelector("#detail-prompt-body").textContent =
       seed.prompt ||
       "This seed lives in your own browser. Keep it in your pocket, or remove it whenever you like.";
     removeButton.hidden = !seed.local;
+    chapterForm.reset();
+    document.querySelector("#chapter-status").textContent = "";
+    updateGrowth();
     updatePocketButton();
     seedDialog.showModal();
   }
+  function updateGrowth() {
+    const stage = stageFor(selectedSeed);
+    GardenGrowth.mount(
+      document.querySelector("#detail-art"),
+      selectedSeed.type,
+      stage,
+    );
+    const progress = document.querySelector("#detail-growth");
+    progress.replaceChildren();
+    GardenGrowth.labels.forEach((label, index) => {
+      const step = element(
+        "span",
+        index <= stage ? "growth-step reached" : "growth-step",
+        `${index + 1}. ${label}`,
+      );
+      if (index === stage) step.setAttribute("aria-current", "step");
+      progress.append(step);
+    });
+    const history = document.querySelector("#chapter-history");
+    history.replaceChildren();
+    const original = element("li");
+    original.append(
+      element(
+        "span",
+        "micro",
+        selectedSeed.local
+          ? "01 / Your first chapter"
+          : "01 / Fictional starting story",
+      ),
+      element("p", "", selectedSeed.body),
+    );
+    history.append(original);
+    if (!selectedSeed.local)
+      (earlierChapters[selectedSeed.id] || []).forEach((text, index) => {
+        const entry = element("li");
+        entry.append(
+          element("span", "micro", `0${index + 2} / Fictional chapter`),
+          element("p", "", text),
+        );
+        history.append(entry);
+      });
+    notesFor(selectedSeed).forEach((note, index) => {
+      const entry = element("li");
+      entry.append(
+        element(
+          "span",
+          "micro",
+          `${String(index + (selectedSeed.local ? 2 : 4)).padStart(2, "0")} / Your chapter · ${note.date}`,
+        ),
+        element("p", "", note.text),
+      );
+      const remove = element("button", "chapter-remove", "Remove this chapter");
+      remove.type = "button";
+      remove.addEventListener("click", () => {
+        chapters[selectedSeed.id] = notesFor(selectedSeed).filter(
+          (_, i) => i !== index,
+        );
+        const saved = storage.set("chapters", chapters);
+        updateGrowth();
+        chapterForm.querySelector("textarea").focus();
+        document.querySelector("#chapter-status").textContent = saved
+          ? "Chapter removed. Your flower reflects the remaining chapters."
+          : "Removed for this visit; browser storage could not be updated.";
+      });
+      entry.append(remove);
+      history.append(entry);
+    });
+    document.querySelector("#detail-body").hidden = true;
+    document.querySelector("#chapter-note").textContent = selectedSeed.local
+      ? (stage === 0
+          ? "Add a chapter to turn your seed into a bud."
+          : stage === 1
+            ? "Add a chapter to see your flower bloom."
+            : "Your flower is in bloom. Its story can keep growing.") +
+        " Saved only in this browser."
+      : "Continue this fictional story with your own response. Only your browser saves it; nothing is sent to the fictional author.";
+  }
+  chapterForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const input = chapterForm.elements.namedItem("chapter");
+    const text = input.value.trim();
+    if (!text) {
+      document.querySelector("#chapter-status").textContent =
+        "Write a few words for this chapter.";
+      input.focus();
+      return;
+    }
+    chapters[selectedSeed.id] = [
+      ...notesFor(selectedSeed),
+      {
+        text: text.slice(0, 700),
+        date: new Date().toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        }),
+      },
+    ];
+    const saved = storage.set("chapters", chapters);
+    chapterForm.reset();
+    updateGrowth();
+    document.querySelector("#chapter-status").textContent = saved
+      ? `Chapter added. ${GardenGrowth.labels[stageFor(selectedSeed)]}: your story has grown.`
+      : "Chapter added for this visit. Browser storage is unavailable.";
+  });
+
   function updatePocketButton() {
     const kept = pocket.has(selectedSeed.id);
     pocketButton.textContent = kept
@@ -387,6 +549,8 @@ if (seedGrid) {
   removeButton.addEventListener("click", () => {
     personalSeeds = personalSeeds.filter((seed) => seed.id !== selectedSeed.id);
     pocket.delete(selectedSeed.id);
+    delete chapters[selectedSeed.id];
+    storage.set("chapters", chapters);
     const saved = storage.set("seeds", personalSeeds);
     storage.set("pocket", [...pocket]);
     seedDialog.close();
@@ -396,10 +560,36 @@ if (seedGrid) {
         : "Removed for this visit. Browser storage could not be updated.",
     );
   });
-  document.querySelector("#plant-open").addEventListener("click", () => {
-    form.querySelector(".form-status").textContent = "";
-    plantDialog.showModal();
-  });
+  document
+    .querySelectorAll("#plant-open, [data-plant-open]")
+    .forEach((button) =>
+      button.addEventListener("click", () => {
+        form.querySelector(".form-status").textContent = "";
+        plantDialog.showModal();
+      }),
+    );
+  document.querySelectorAll("[data-prompt]").forEach((button) =>
+    button.addEventListener("click", () => {
+      const prompts = {
+        memory: ["A place I miss", "One detail I remember is…"],
+        knowledge: [
+          "Something I learned",
+          "I used to think… Then I discovered…",
+        ],
+        care: [
+          "A kindness I can offer",
+          "I could make someone’s day easier by…",
+        ],
+      };
+      const [title, placeholder] = prompts[button.dataset.prompt];
+      form.elements.namedItem("type").value = button.dataset.prompt;
+      // Keep visitors' writing intact when choosing another prompt.
+      if (!form.elements.namedItem("title").value.trim())
+        form.elements.namedItem("title").value = title;
+      form.elements.namedItem("body").placeholder = placeholder;
+      form.elements.namedItem("body").focus();
+    }),
+  );
   document
     .querySelectorAll(".close-dialog")
     .forEach((button) =>
@@ -441,7 +631,7 @@ if (seedGrid) {
     };
     personalSeeds.unshift(seed);
     const saved = storage.set("seeds", personalSeeds);
-    currentFilter = "all";
+    currentFilter = "mine";
     renderSeeds();
     form.reset();
     plantDialog.close();
@@ -452,7 +642,7 @@ if (seedGrid) {
     });
     announce(
       saved
-        ? "Your seed is planted. This little corner of the future is yours."
+        ? "Your seed is planted in My seeds. Open it to add the next chapter and watch it grow."
         : "Your seed is here for this visit. Browser storage is unavailable.",
     );
   });

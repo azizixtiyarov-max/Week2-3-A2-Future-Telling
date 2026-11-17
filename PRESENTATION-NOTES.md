@@ -47,3 +47,9 @@ Consider consent, access, power, maintenance, and exclusion alongside appearance
 
 **What inspired it?**
 Low-tech Magazine’s resource-conscious website, Library of Things’ local sharing model, seed libraries, and greenhouse architecture. See `RESEARCH.md` for sources.
+
+## Explain the revision
+
+“The critique showed me that visitors understood the garden’s atmosphere before they understood its purpose. I made the purpose explicit: plant a thought, add chapters, and watch its story grow. A guided example shows how an old market memory becomes a new friendship. The flowers now have distinct stages and more vivid colors. This makes growth something visitors can actually do.”
+
+For the revised demo, choose **Plant my first seed**, try a writing prompt, and submit. Under **My seeds**, open your contribution and add a chapter: it becomes a bud. Add another: it blooms. Show that the original writing and both chapters remain together in the story history.

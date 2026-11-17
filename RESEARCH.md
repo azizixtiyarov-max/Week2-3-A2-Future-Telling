@@ -31,3 +31,13 @@ These are conceptual references, not claims of museum visits, fieldwork, or inte
 ## Process
 
 Brief → future scenario → online precedents → botanical visual language → three-page journey → local interactions → desktop/mobile browser checks → reflection and submission package.
+
+## Revision following peer and instructor feedback
+
+- Farhan: added an interactive three-chapter example and narrative continuations for the fictional seeds.
+- Julianna: memories remain open to new chapters; their visual form changes as visitors add to them.
+- Zhee Loc: planting and tending now form a complete interaction, including seed, bud, and flower stages.
+- Yixuan and Ziying: retained the botanical identity and developed brighter, layered flower illustrations with stems, leaves, and highlights.
+- Instructor: added a literal definition of a seed, a numbered introduction, clear action labels, writing starters, and a My seeds filter.
+
+Growth comes from writing, not repeated button clicks. There are no time penalties or streaks. A visitor can remove their own added chapters; the plant then reflects the remaining story. Fictional example flowers begin with three authored chapters. A visitor's own new seed begins with one. These changes respond to the supplied critiques; they have not yet been evaluated in a second round of participant testing.

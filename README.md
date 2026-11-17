@@ -35,3 +35,11 @@ The reflection describes the concept developed for this submission. Personalize 
 ## Suggested submission type
 
 Choose **File Upload** and upload `common-ground-submission.zip`. This includes the design folder and reflection. A hosted preview is supplemental; the folder is self-contained.
+
+## Revised garden
+
+Start with the guided story to see how a seed becomes a bud, then a flower. Plant a contribution and find it under **My seeds**. Open it and use **Add chapter & grow** to continue the story. One added chapter produces a bud; two produce a full flower. Additional chapters remain in its history. Your added chapters can be removed individually. Fictional examples already contain three chapters.
+
+The revised reflection incorporates the supplied peer and instructor feedback and remains within 250–400 words. `RESEARCH.md` maps feedback to design changes.
+
+To regenerate HTML and artwork, run `python3 scripts/build-pages.py` followed by `node scripts/build-flowers.cjs`. The delivered `dist/` folder is already ready to use.
