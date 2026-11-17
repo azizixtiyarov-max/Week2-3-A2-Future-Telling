@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Step into Common Ground: a speculative internet in 2086 where communities grow shared knowledge, memory, and care."
+    />
+    <meta name="theme-color" content="#17151d" />
+    <title>The community garden — Common Ground</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body data-page="garden">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="brand" href="index.html" aria-label="Common Ground home"
+        ><svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="2.5">
+            <ellipse cx="32" cy="32" rx="28" ry="10" />
+            <ellipse
+              cx="32"
+              cy="32"
+              rx="28"
+              ry="10"
+              transform="rotate(60 32 32)"
+            />
+            <ellipse
+              cx="32"
+              cy="32"
+              rx="28"
+              ry="10"
+              transform="rotate(120 32 32)"
+            />
+          </g>
+          <circle cx="32" cy="32" r="4" fill="currentColor" /></svg
+        ><span>common ground</span></a
+      >
+      <nav class="nav" aria-label="Main navigation">
+        <a href="index.html">The vision</a
+        ><a href="garden.html" aria-current="page">The garden</a
+        ><a href="agreement.html">Our agreement</a>
+      </nav>
+      <a class="nav-cta" href="garden.html#plant"
+        >Plant a seed <span aria-hidden="true">↗</span></a
+      >
+    </header>
+    <main id="main" class="wrap">
+      <section class="page-intro">
+        <div>
+          <p class="eyebrow">
+            <span class="dot"></span> 02 / The community garden
+          </p>
+          <h1>Every connection<br />starts with <em>a seed.</em></h1>
+        </div>
+        <p>
+          Take a wandering path. Open something that calls to you. There is no
+          right place to begin.
+        </p>
+      </section>
+      <div class="garden-controls">
+        <div class="filters" role="group" aria-label="Filter seeds">
+          <button
+            class="filter"
+            type="button"
+            data-filter="all"
+            aria-pressed="true"
+          >
+            Everything</button
+          ><button
+            class="filter"
+            type="button"
+            data-filter="knowledge"
+            aria-pressed="false"
+          >
+            Knowledge</button
+          ><button
+            class="filter"
+            type="button"
+            data-filter="memory"
+            aria-pressed="false"
+          >
+            Memory</button
+          ><button
+            class="filter"
+            type="button"
+            data-filter="care"
+            aria-pressed="false"
+          >
+            Care</button
+          ><button
+            class="filter"
+            type="button"
+            data-filter="pocket"
+            aria-pressed="false"
+          >
+            My pocket
+          </button>
+        </div>
+        <span
+          class="garden-note"
+          id="seed-count"
+          role="status"
+          aria-live="polite"
+          >6 seeds to discover</span
+        >
+      </div>
+      <p class="prototype-note">
+        An imagined garden: the six founding seeds are fictional. Your seeds and
+        pocket stay on this device.
+        <a href="agreement.html#prototype">How this prototype works ↗</a>
+      </p>
+      <section
+        class="seed-grid"
+        id="seed-grid"
+        aria-label="Community seeds"
+      ></section>
+      <noscript
+        ><p>
+          This garden’s interactive seeds need JavaScript. You can still explore
+          <a href="index.html">the vision</a> and
+          <a href="agreement.html">our agreement</a>.
+        </p></noscript
+      >
+      <section class="plant-panel" id="plant">
+        <div>
+          <p class="eyebrow">A small contribution is enough.</p>
+          <h2>What would you like to grow?</h2>
+          <p>
+            Share a skill, leave a memory, or offer a little care.<br />Your
+            seed will appear in your own version of this garden.
+          </p>
+        </div>
+        <button class="button" id="plant-open" type="button">
+          Plant a seed <span class="arrow" aria-hidden="true">+</span>
+        </button>
+      </section>
+    </main>
+    <dialog id="seed-dialog" aria-labelledby="detail-title">
+      <div class="dialog-top">
+        <p class="eyebrow" id="detail-type"></p>
+        <button class="close-dialog" type="button" aria-label="Close seed">
+          ×
+        </button>
+      </div>
+      <img
+        class="detail-art"
+        id="detail-art"
+        src="assets/bloom.svg"
+        alt=""
+        width="145"
+        height="145"
+      />
+      <h2 id="detail-title"></h2>
+      <p id="detail-person" class="micro"></p>
+      <p id="detail-body"></p>
+      <div class="detail-prompt">
+        <h3 id="detail-prompt-title"></h3>
+        <p id="detail-prompt-body"></p>
+      </div>
+      <div class="detail-actions">
+        <button class="button" type="button" id="pocket-button">
+          Keep in my pocket +</button
+        ><button
+          class="button secondary"
+          type="button"
+          id="remove-button"
+          hidden
+        >
+          Remove my seed
+        </button>
+      </div>
+    </dialog>
+    <dialog id="plant-dialog" aria-labelledby="plant-title">
+      <div class="dialog-top">
+        <p class="eyebrow">Your corner of the commons</p>
+        <button
+          class="close-dialog"
+          type="button"
+          aria-label="Close planting form"
+        >
+          ×
+        </button>
+      </div>
+      <h2 id="plant-title">Something small.<br /><em>Something yours.</em></h2>
+      <p>A sentence is enough to begin.</p>
+      <form id="plant-form">
+        <div class="form-row">
+          <label
+            >What are you planting?<select name="type">
+              <option value="knowledge">A little knowledge</option>
+              <option value="memory">A memory</option>
+              <option value="care">An offer of care</option>
+            </select></label
+          ><label
+            >Your name (optional)<input
+              name="name"
+              maxlength="30"
+              placeholder="A neighbor"
+              autocomplete="off"
+          /></label>
+        </div>
+        <label
+          >Give your seed a name<input
+            name="title"
+            required
+            maxlength="65"
+            placeholder="e.g. How to mend a favorite sweater" /></label
+        ><label
+          >What would you like to share?<textarea
+            name="body"
+            required
+            maxlength="700"
+            placeholder="A thought, a story, or an invitation…"
+          ></textarea>
+        </label>
+        <p class="form-note" id="storage-note">
+          Saved only in this browser, when storage is available. Nothing is sent
+          to other people. You can remove your seed at any time.
+        </p>
+        <button class="button" type="submit">
+          Plant in my garden <span aria-hidden="true">↗</span></button
+        ><span class="form-status" role="status"></span>
+      </form>
+    </dialog>
+    <footer class="site-footer wrap">
+      <div class="footer-meta">
+        <span>Common Ground © 2086 · An imagined future.</span
+        ><span>A small experiment in a more human internet.</span>
+      </div>
+      <div class="footer-links">
+        <a href="agreement.html">Made for belonging</a
+        ><button class="motion-button" type="button" aria-pressed="false">
+          Motion: on</button
+        ><span class="micro">Take your time. Stay a while.</span>
+      </div>
+    </footer>
+    <div class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
